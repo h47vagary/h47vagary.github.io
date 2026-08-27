@@ -1,11 +1,330 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>我的个人主页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ 我的个人主页 · 焕新</title>
+    <!-- 使用柔和的风格，融入毛玻璃与渐变 -->
+    <style>
+        /* 全局重置与字体 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #f9f3e8 0%, #e8e0f0 100%);
+            padding: 1.5rem;
+            /* 增加一点动态背景微光 */
+            position: relative;
+        }
+
+        /* 装饰性光晕 */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 215, 150, 0.25) 0%, transparent 70%);
+            top: -150px;
+            left: -150px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle at 80% 70%, rgba(170, 140, 220, 0.2) 0%, transparent 65%);
+            bottom: -100px;
+            right: -100px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* 主卡片 — 毛玻璃效果 */
+        .card {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            width: 100%;
+            padding: 3rem 2.8rem;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-radius: 56px;
+            box-shadow: 
+                0 30px 60px -20px rgba(0, 0, 0, 0.25),
+                0 10px 30px -10px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 40px 70px -20px rgba(0, 0, 0, 0.3), 0 12px 28px -8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 头像 / 装饰图标 */
+        .avatar {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #fddb92 0%, #d1fdff 100%);
+            border-radius: 50%;
+            margin-bottom: 1.2rem;
+            font-size: 3.8rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.15);
+            border: 3px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.25s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.03) rotate(2deg);
+            border-color: #fff9f0;
+        }
+
+        /* 主标题 */
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 650;
+            letter-spacing: -0.01em;
+            color: #1e1a2b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.2rem 0.6rem;
+        }
+
+        .hand-wave {
+            display: inline-block;
+            animation: wave 2.6s infinite ease-in-out;
+            transform-origin: 70% 70%;
+            font-size: 2.8rem;
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(16deg); }
+            20% { transform: rotate(-6deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .title-highlight {
+            background: linear-gradient(145deg, #a17fe0, #6b4fbc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* 副标题 / 描述 */
+        .subhead {
+            font-size: 1.25rem;
+            color: #3d3652;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: inline-block;
+            padding: 0.3rem 2rem;
+            border-radius: 60px;
+            margin-top: 0.2rem;
+            margin-bottom: 1.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 450;
+            letter-spacing: 0.3px;
+        }
+
+        /* 正文描述 */
+        .bio {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #2e2940;
+            background: rgba(250, 248, 255, 0.3);
+            padding: 1.2rem 1.8rem;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            margin-bottom: 2.2rem;
+            font-weight: 400;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .bio i {
+            font-style: italic;
+            background: linear-gradient(120deg, #b7a1e6, #d4b5ff);
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
+            color: #1f1730;
+        }
+
+        /* 社交/信息行 */
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem 1.2rem;
+            margin-top: 0.4rem;
+        }
+
+        .link-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.6rem;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 80px;
+            color: #1e1730;
+            font-weight: 500;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+            font-size: 1rem;
+        }
+
+        .link-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: #b7a1e6;
+            transform: scale(1.02);
+            box-shadow: 0 8px 16px -10px rgba(90, 60, 150, 0.25);
+            color: #2b1e4a;
+        }
+
+        .link-item .emoji {
+            font-size: 1.3rem;
+            line-height: 1;
+        }
+
+        /* 页脚小字 */
+        .footer-note {
+            margin-top: 2.8rem;
+            font-size: 0.9rem;
+            color: #4f4670;
+            opacity: 0.8;
+            letter-spacing: 0.4px;
+            border-top: 1px solid rgba(255, 255, 255, 0.25);
+            padding-top: 1.6rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-note span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 响应式微调 */
+        @media (max-width: 520px) {
+            .card {
+                padding: 2rem 1.5rem;
+                border-radius: 36px;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 3rem;
+            }
+            .bio {
+                font-size: 1rem;
+                padding: 1rem 1.2rem;
+            }
+            .link-item {
+                padding: 0.4rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                padding: 1.5rem 1rem;
+            }
+            .subhead {
+                font-size: 1rem;
+                padding: 0.2rem 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>👋 你好，世界！</h1>
-    <p>这是我用 GitHub Pages 搭建的网站。</p>
+
+    <div class="card">
+
+        <!-- 头像/图标  -->
+        <div class="avatar" role="img" aria-label="个人头像">
+            🌟
+        </div>
+
+        <!-- 主标题 带着动态手势 -->
+        <h1>
+            <span class="hand-wave">👋</span> 
+            你好，<span class="title-highlight">世界</span>！
+        </h1>
+
+        <!-- 副标题 类似标语 -->
+        <div class="subhead">
+            ✦ 欢迎来到我的数字花园 ✦
+        </div>
+
+        <!-- 描述内容 更生动 -->
+        <div class="bio">
+            <i>✨</i> 这是我用 <strong>GitHub Pages</strong> 搭建的网站， 
+            一个简洁、温暖的小角落。 <i>✨</i><br>
+            <span style="display: inline-block; margin-top: 0.4rem; font-size: 0.95rem; opacity: 0.9;">
+                🌱 记录思考 · 分享创造 · 保持好奇
+            </span>
+        </div>
+
+        <!-- 链接区 / 社交占位 让页面有互动感 -->
+        <div class="links">
+            <a href="#" class="link-item" onclick="alert('✨ 这是我的 GitHub 空间 ~'); return false;">
+                <span class="emoji">🐙</span> GitHub
+            </a>
+            <a href="#" class="link-item" onclick="alert('📬 欢迎交流：hello@example.com'); return false;">
+                <span class="emoji">📬</span> 邮箱
+            </a>
+            <a href="#" class="link-item" onclick="alert('📝 博客正在筹备中，敬请期待！'); return false;">
+                <span class="emoji">📝</span> 博客
+            </a>
+        </div>
+
+        <!-- 底部小点缀 -->
+        <div class="footer-note">
+            <span>⏳ 2026 · 秋</span>
+            <span>🌿 从代码到生活</span>
+            <span>⚡ 用爱发电</span>
+        </div>
+
+    </div>
+
 </body>
 </html>
